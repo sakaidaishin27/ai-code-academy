@@ -440,6 +440,8 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
   const ov = document.getElementById('overrideBtn')
   if (ov) ov.addEventListener('click', () => {
     setChState(chapter.id, { submitPassed: true, quizPassed: true })
+    const qa = document.getElementById('quizArea')
+    if (qa) qa.innerHTML = '<div class="vr-pass">ミニテスト 合格済み（講師開通）</div>'
     refreshClear(true)
   })
 
@@ -447,8 +449,7 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
     if (chapterCleared(chapter) || force) {
       const area = document.getElementById('clearArea')
       if (area) area.innerHTML = clearedBanner()
-      const qa = document.getElementById('quizArea')
-      if (qa && chState(chapter.id).quizPassed) qa.innerHTML = '<div class="vr-pass">ミニテスト 合格済み</div>'
+      // quizArea は触らない（合格直後の解説レビューを残す）
       area.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
     }
   }
