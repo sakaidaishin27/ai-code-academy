@@ -231,3 +231,135 @@ a:hover { text-decoration: underline; }
   .certificate { padding: 28px 22px; }
   .nav-row { flex-wrap: wrap; }
 }
+
+/* =====================================================================
+   v2 追加: オンラインスクール型UI（コース/章/レッスン・図解部品・クイズ）
+   ===================================================================== */
+
+/* ---- ヒーローCTA ---- */
+.hero-cta { margin-top: 6px; }
+
+/* ---- コースカード ---- */
+.course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.course-card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; gap: 8px; }
+.course-card.is-done { background: #F4F8F5; border-color: #c3ddc9; }
+.cc-top { display: flex; align-items: center; justify-content: space-between; }
+.cc-title { font-size: 17px; font-weight: 800; color: var(--ink-strong); margin: 0; }
+.cc-tagline { font-size: 12.5px; color: var(--sub); margin: 0; flex: 1 0 auto; }
+.cc-progress { display: flex; align-items: center; gap: 10px; }
+.cc-bar { flex: 1; height: 8px; background: #EFECE5; border-radius: 999px; overflow: hidden; }
+.cc-fill { height: 100%; background: var(--indigo); border-radius: 999px; transition: width .3s ease; }
+.cc-meta { font-size: 11px; color: var(--sub); white-space: nowrap; }
+.cc-actions { display: flex; gap: 8px; margin-top: 4px; }
+
+/* ---- 章リスト ---- */
+.course-head { display: flex; align-items: center; gap: 10px; }
+.chapter-list { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.chapter-row { display: flex; align-items: center; gap: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow-sm); }
+.chapter-row.open { border-color: #bcd2d8; }
+.chapter-row.cleared { background: #F4F8F5; border-color: #c3ddc9; }
+.chapter-row.locked { opacity: .68; }
+.chapter-row.soon { background: #FAF8F3; }
+.chr-no { font-size: 12px; font-weight: 800; color: var(--sub); white-space: nowrap; min-width: 52px; }
+.chr-main { flex: 1; min-width: 0; }
+.chr-title { font-size: 15px; font-weight: 700; color: var(--ink-strong); }
+.chr-goal { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.chr-meta { font-size: 11px; color: var(--sub); margin-top: 4px; }
+.chr-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; white-space: nowrap; }
+
+/* ---- レッスン一覧 ---- */
+.lesson-list { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.lesson-row { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 11px 14px; color: var(--ink); }
+.lesson-row:hover { text-decoration: none; border-color: #bcd2d8; background: #FCFDFD; }
+.lesson-row.done { background: #F7FAF7; }
+.lr-idx { font-size: 11px; font-weight: 800; color: var(--sub); min-width: 18px; text-align: center; }
+.lr-type { font-size: 10.5px; font-weight: 800; border-radius: 5px; padding: 2px 8px; white-space: nowrap; }
+.lr-type.t-lecture { background: #EEF1F3; color: var(--ink-strong); }
+.lr-type.t-practice { background: #E7F0E9; color: #1f5c34; }
+.lr-type.t-submit { background: #F6ECD9; color: var(--gold); }
+.lr-title { flex: 1; font-size: 13.5px; font-weight: 600; min-width: 0; }
+.lr-right { font-size: 11px; color: var(--sub); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+.lr-done { display: inline-flex; align-items: center; justify-content: center; background: var(--green); color: #fff; font-size: 10px; font-weight: 800; border-radius: 999px; padding: 1px 8px; }
+
+/* ---- レッスン本文 ---- */
+.lesson-body { font-size: 14.5px; line-height: 1.95; color: var(--ink); }
+.lesson-body p { margin: 0 0 14px; }
+.lesson-body strong { color: var(--ink-strong); }
+.done-bar { margin: 18px 0 6px; }
+
+/* ---- 図解部品: figure ---- */
+.figure { margin: 18px 0; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 16px 10px; }
+.figure svg { width: 100%; height: auto; display: block; }
+.figure figcaption { font-size: 11.5px; color: var(--sub); text-align: center; margin-top: 8px; }
+
+/* ---- 図解部品: ターミナル再現モック ---- */
+.term-mock { margin: 16px 0; border-radius: 10px; overflow: hidden; border: 1px solid #2a2f36; box-shadow: var(--shadow-sm); }
+.tm-bar { display: flex; align-items: center; gap: 6px; background: #2a2f36; padding: 8px 12px; }
+.tm-bar span { width: 10px; height: 10px; border-radius: 50%; background: #4a5058; }
+.tm-bar span:nth-child(1) { background: #e0655a; }
+.tm-bar span:nth-child(2) { background: #e0b13f; }
+.tm-bar span:nth-child(3) { background: #57b464; }
+.tm-bar em { font-style: normal; font-size: 11px; color: #9aa3ad; margin-left: 6px; }
+.tm-body { background: #14161A; padding: 14px 16px; font-family: "SFMono-Regular", Consolas, Menlo, monospace; font-size: 12.5px; line-height: 1.8; }
+.tm-body p { margin: 0 0 10px; white-space: pre-wrap; word-break: break-word; }
+.tm-body p:last-child { margin-bottom: 0; }
+.tm-in { color: #8ecfdd; }
+.tm-in::before { content: "あなた ▸ "; color: #57b464; font-weight: 700; }
+.tm-out { color: #d5d9de; }
+.tm-out::before { content: "AI ▸ "; color: #B8842B; font-weight: 700; }
+.tm-cmd { color: #e6e9ec; background: #1d2127; border-radius: 6px; padding: 6px 10px; }
+.tm-cmd::before { content: "$ "; color: #57b464; font-weight: 700; }
+
+/* ---- 図解部品: ステップ図 ---- */
+.steps-fig { list-style: none; counter-reset: sf; margin: 16px 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.steps-fig li { counter-increment: sf; position: relative; background: var(--card); border: 1px solid var(--line); border-radius: 9px; padding: 11px 14px 11px 48px; font-size: 13.5px; line-height: 1.7; }
+.steps-fig li::before { content: counter(sf); position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; background: var(--ink-strong); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+
+/* ---- 図解部品: Before/After比較 ---- */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+.cmp-col { background: #FBF4F2; border: 1px solid #ecd4cd; border-radius: 10px; padding: 13px 15px; font-size: 13px; line-height: 1.8; }
+.cmp-col h5 { margin: 0 0 6px; font-size: 12.5px; color: #8f3527; }
+.cmp-col.good { background: #F0F7F1; border-color: #c3ddc9; }
+.cmp-col.good h5 { color: #1f5c34; }
+.cmp-col p { margin: 0; }
+
+/* ---- 図解部品: callout ---- */
+.callout { background: #FBF7EE; border-left: 3px solid var(--gold); border-radius: 6px; padding: 12px 15px; font-size: 13.5px; line-height: 1.8; margin: 16px 0; }
+
+/* ---- 動画スロット ---- */
+.video-slot { display: flex; align-items: center; gap: 10px; background: #F2F1EE; border: 1px dashed #cfc9bc; border-radius: 9px; padding: 12px 15px; font-size: 12.5px; color: var(--sub); margin: 14px 0; }
+.vs-label { font-size: 10.5px; font-weight: 800; background: #dcd7cb; color: #5a5647; border-radius: 5px; padding: 2px 8px; white-space: nowrap; }
+
+/* ---- ミニテスト（クイズ） ---- */
+.q-block { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+.q-head { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+.q-num { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%; background: var(--indigo); color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+.q-text { font-size: 13.5px; font-weight: 700; color: var(--ink-strong); line-height: 1.6; }
+.choices { display: flex; flex-direction: column; gap: 7px; }
+.choice { display: flex; align-items: center; gap: 9px; border: 1px solid var(--line); border-radius: 8px; padding: 9px 12px; font-size: 13px; cursor: pointer; background: #FCFCFB; position: relative; }
+.choice:hover { border-color: #bcd2d8; }
+.choice.selected { border-color: var(--indigo); background: #EFF5F6; }
+.choice input { accent-color: var(--indigo); }
+.choice.locked { cursor: default; }
+.choice.correct { border-color: #7fbf92; background: #F0F7F1; }
+.choice.wrong { border-color: #d99a8d; background: #FBF1EE; }
+.choice-flag { margin-left: auto; font-size: 10.5px; font-weight: 800; border-radius: 5px; padding: 2px 8px; white-space: nowrap; }
+.choice-flag.ok { background: var(--green); color: #fff; }
+.choice-flag.ng { background: var(--brick); color: #fff; }
+.explanation { margin-top: 10px; font-size: 12.5px; line-height: 1.8; border-radius: 8px; padding: 10px 13px; }
+.explanation.is-correct { background: #F0F7F1; color: #1f5c34; }
+.explanation.is-wrong { background: #FBF1EE; color: #8f3527; }
+.exp-label { font-weight: 800; margin-right: 6px; }
+.grade-bar { display: flex; align-items: center; justify-content: flex-end; gap: 14px; margin: 6px 0 2px; }
+.answer-progress { font-size: 12px; color: var(--sub); }
+
+/* ---- tips ---- */
+.part.tips { background: #F3F6F8; border-color: #d5e2e8; }
+.part.tips .part-label { margin-bottom: 4px; }
+.part.tips p { margin: 0; font-size: 13px; }
+
+@media (max-width: 720px) {
+  .compare { grid-template-columns: 1fr; }
+  .chapter-row { flex-wrap: wrap; }
+  .chr-side { flex-direction: row; align-items: center; }
+}
