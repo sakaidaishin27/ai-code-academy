@@ -135,7 +135,7 @@ export const COURSE1 = {
             instruction: '起動したClaude Codeに上の実習プロンプト（「あなたが今どこで動いているのか教えて」）を貼り、返ってきた答えをここに貼り付けてください。',
             checks: [
               { type: 'keywordsAny', values: ['フォルダ', 'ディレクトリ', 'folder', 'directory', '場所'], min: 1, label: '今いる場所（フォルダ）の説明がある' },
-              { type: 'minChars', min: 40, label: 'AIからの返答が貼られている' },
+              { type: 'minChars', min: 30, label: 'AIからの返答が貼られている' },
             ],
             passRule: 'all',
           },
