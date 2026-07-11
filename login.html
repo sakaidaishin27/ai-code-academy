@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>ログイン — AI業務OS道場</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23B8842B'/%3E%3Ctext x='16' y='23' font-size='19' text-anchor='middle' fill='white' font-family='sans-serif'%3E%E9%81%93%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="login-body">
+  <main class="login-wrap">
+    <div class="login-card">
+      <div class="login-brand">
+        <span class="brand-mark" aria-hidden="true">道</span>
+        <div>
+          <div class="login-title">AI業務OS道場</div>
+          <div class="login-sub">AI WORK-OS DOJO</div>
+        </div>
+      </div>
+      <p class="login-lead">受講にはログインが必要です。</p>
+
+      <form id="loginForm" class="login-form" autocomplete="off">
+        <label class="field" id="emailField">
+          <span class="field-label">メールアドレス</span>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="username">
+        </label>
+        <label class="field">
+          <span class="field-label" id="pwLabel">パスワード</span>
+          <input type="password" id="password" placeholder="パスワード" autocomplete="current-password" required>
+        </label>
+        <button type="submit" class="btn btn-green btn-block" id="loginBtn">ログイン</button>
+        <p class="login-error" id="loginError" role="alert"></p>
+      </form>
+
+      <p class="login-note" id="loginNote"></p>
+    </div>
+  </main>
+
+  <script type="module">
+    import { AUTH_CONFIG } from './js/config.js'
+    import { login, redirectIfAuthed, safeNext } from './js/auth.js'
+
+    // すでにログイン済みなら中へ
+    redirectIfAuthed()
+
+    // demo モードはメール欄を隠し「合言葉」表示にする
+    const isDemo = AUTH_CONFIG.mode !== 'supabase'
+    if (isDemo) {
+      document.getElementById('emailField').style.display = 'none'
+      document.getElementById('pwLabel').textContent = '合言葉'
+      document.getElementById('password').placeholder = '合言葉を入力'
+      document.getElementById('loginNote').textContent = '合言葉は担当者からお伝えします。'
+    } else {
+      document.getElementById('loginNote').textContent = 'メールアドレスとパスワードでログインしてください。'
+    }
+
+    const form = document.getElementById('loginForm')
+    const errEl = document.getElementById('loginError')
+    const btn = document.getElementById('loginBtn')
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault()
+      errEl.textContent = ''
+      btn.disabled = true
+      btn.textContent = '確認中…'
+      const email = document.getElementById('email').value.trim()
+      const password = document.getElementById('password').value
+      const res = await login(email, password)
+      if (res.ok) {
+        const next = new URLSearchParams(window.location.search).get('next')
+        window.location.replace(safeNext(next))
+      } else {
+        errEl.textContent = res.error || 'ログインに失敗しました。'
+        btn.disabled = false
+        btn.textContent = 'ログイン'
+      }
+    })
+  </script>
+</body>
+</html>

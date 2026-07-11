@@ -1,0 +1,9 @@
+# ローカル/環境固有の設定（Supabase URL・合言葉など）。デプロイ時は配置するがコミットしない。
+js/config.js
+
+# OS / エディタ
+.DS_Store
+node_modules/
+
+# 本番の実データは絶対に置かない（同梱はダミーのみ）
+assets/data/real-*.csv
