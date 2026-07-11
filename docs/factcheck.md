@@ -35,6 +35,9 @@
 - 秘密情報を一度コミットしたら「削除」では消えない（履歴・フォーク・キャッシュに残りうる）。公式の第一手は**無効化・再発行（revoke/rotate）**。旧文言「pushしたらcompromisedとみなせ」は現行docsに無いため引用しない → 第9章
 - 基地（業務メモ入り）のバックアップは Private、公開サイトは公開専用の別リポジトリで — 教材の安全設計 → 第8・9章
 
+### Open-Meteo（出典: open-meteo.com トップページ・2026-07-11確認）
+- 天気予報API。「no API key required」「No API key, no sign-up, no credit card」と明記。非商用は1日10,000コールまで無料 → 第11章の実習素材として採用可
+
 ### gog CLI（出典: 社内正本 client-starter-kit/01_setup-gog.md）
 - 手順: ①Homebrew確認（which brew）②brew install gog → gog --version ③gog auth add <メール>（ブラウザで許可）④gog auth alias set main <メール> ⑤動作確認 gog -a main calendar list --today / gog -a main gmail list --unread --limit 5 → 第4章の実習プロンプトはこの正本に一致
 - ブリーフィングが動く前提: gog認証済み＋alias main＋CLAUDE.md に朝ブリーフィング定義（正本は --limit 5）→ 第4章
