@@ -489,7 +489,7 @@ export const COURSE2 = {
           title: '覚える言葉は3つだけ — リポジトリ・コミット・push',
           minutes: 7,
           body: [
-            '<p>GitHubには専門用語がたくさんありますが、この道場で覚えるのは<strong>3つだけ</strong>です。</p>',
+            '<p>GitHubには専門用語がたくさんありますが、このアカデミーで覚えるのは<strong>3つだけ</strong>です。</p>',
             '<ol class="steps-fig">',
             '<li><strong>リポジトリ</strong> — 保管庫の1区画。「プロジェクトのフォルダ」のイメージ。基地1つにつきリポジトリ1つ</li>',
             '<li><strong>コミット</strong> — 変更のスナップショット。ゲームで言う<strong>セーブポイント</strong>。「ここまでの状態を記録した」という点が1つ打たれる</li>',
@@ -529,7 +529,7 @@ export const COURSE2 = {
             '<li><strong>ブラウザで https://github.com/signup を開く</strong></li>',
             '<li><strong>メールアドレス・パスワード・ユーザー名を入力</strong> — 画面は英語ですが、聞かれるのはこの3つです</li>',
             '<li><strong>メールに届く確認コードを入力</strong> — 登録したメールの受信箱を確認してください</li>',
-            '<li><strong>プランは無料（Free）のまま完了</strong> — 有料プランの案内が出ても、この道場ではFreeで十分です</li>',
+            '<li><strong>プランは無料（Free）のまま完了</strong> — 有料プランの案内が出ても、このアカデミーではFreeで十分です</li>',
             '</ol>',
             '<p>1つだけ、先に考えておきたいのが<strong>ユーザー名</strong>です。実は次の章で、あなたのWebページのURLが<strong>https://ユーザー名.github.io/…</strong>という形になります。つまりユーザー名は<strong>人に見せるURLの一部</strong>。仕事で出しても恥ずかしくない名前を選びましょう。下のプロンプトでAIに候補を出させてから、登録に進むのがおすすめです。</p>',
           ].join('\n'),

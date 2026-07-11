@@ -126,7 +126,7 @@ function typeLabel(t) {
 
 /* ----------------------------- 共通パーツ ----------------------------- */
 function crumb(parts) {
-  const items = [['dashboard', '道場']].concat(parts)
+  const items = [['dashboard', 'アカデミー']].concat(parts)
   return '<div class="breadcrumb">' + items.map(([hash, label], i) =>
     i === items.length - 1 ? esc(label) : '<a href="' + href(hash) + '">' + esc(label) + '</a>'
   ).join(' › ') + '</div>'
@@ -258,7 +258,7 @@ function renderCourse(courseId) {
       '<p class="page-sub">' + esc(c.tagline) + '（' + esc(c.weeks) + '）　進捗: ' + pr.cleared + ' / ' + pr.total + ' 章</p>' +
       (courseCompleted(c) ? '<p><a class="btn btn-gold" href="' + href('/cert/' + c.id) + '">' + esc(c.cert.title) + ' を見る</a></p>' : '') +
       '<div class="chapter-list">' + rows + '</div>' +
-      '<div class="btn-row"><a class="btn btn-ghost" href="' + href('/dashboard') + '">道場に戻る</a></div>' +
+      '<div class="btn-row"><a class="btn btn-ghost" href="' + href('/dashboard') + '">アカデミーに戻る</a></div>' +
     '</section>'
 }
 
@@ -350,7 +350,7 @@ function renderLesson(lessonId) {
 
   const done = lessonDone(lesson.id)
   app.innerHTML =
-    '<section class="view">' + head +
+    '<section class="view view-lesson">' + head +
       '<div class="lesson-body">' + (lesson.body || '') + '</div>' +
       (lesson.videoSlot ? videoSlotHtml() : '') +
       (lesson.type === 'practice' ? '<div class="part"><div class="part-label"><span class="part-no">実</span> 自分のClaude Codeでやってみる</div>' + promptBoxHtml(lesson.prompt) + '</div>' : '') +
@@ -384,12 +384,12 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
       '<div class="btn-row">' +
         (certReady ? '<a class="btn btn-gold" href="' + href('/cert/' + course.id) + '">' + esc(course.cert.title) + ' を受け取る</a>' : '') +
         (nextCh ? '<a class="btn" href="' + href('/chapter/' + nextCh.id) + '">次の章へ: ' + esc(nextCh.title) + '</a>' : '') +
-        '<a class="btn btn-ghost" href="' + href('/dashboard') + '">道場に戻る</a>' +
+        '<a class="btn btn-ghost" href="' + href('/dashboard') + '">アカデミーに戻る</a>' +
       '</div>'
   }
 
   app.innerHTML =
-    '<section class="view">' + head +
+    '<section class="view view-lesson">' + head +
       '<div class="lesson-body">' + (lesson.body || '') + '</div>' +
 
       '<div class="part"><div class="part-label"><span class="part-no">1</span> 実機の証拠を貼る</div>' +
@@ -576,13 +576,13 @@ function renderCert(courseId) {
           '<div class="cert-seal"><span class="seal-mark">' + esc(BRAND.mark) + '</span><span class="seal-text">認 定</span></div>' +
         '</div>' +
       '</div></div>' +
-      '<div class="btn-row" style="justify-content:center;"><a class="btn" href="' + href('/dashboard') + '">道場に戻る</a></div>' +
+      '<div class="btn-row" style="justify-content:center;"><a class="btn" href="' + href('/dashboard') + '">アカデミーに戻る</a></div>' +
     '</section>'
 }
 
 function renderNotFound() {
   app.innerHTML = '<section class="view"><div class="notice">お探しのページが見つかりませんでした。</div>' +
-    '<div class="btn-row"><a class="btn" href="' + href('/dashboard') + '">道場に戻る</a></div></section>'
+    '<div class="btn-row"><a class="btn" href="' + href('/dashboard') + '">アカデミーに戻る</a></div></section>'
 }
 
 /* ----------------------------- コピー ----------------------------- */
