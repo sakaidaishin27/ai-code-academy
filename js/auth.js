@@ -2,7 +2,8 @@
 //
 // 設計:
 //   - config.js の AUTH_CONFIG.mode で切り替える（'demo' | 'supabase'）。
-//   - demo: 合言葉1つで入れる簡易ゲート（MVP/検証用）。セッションは sessionStorage に持つ。
+//   - demo: 合言葉1つで入れる簡易ゲート（MVP/検証用）。ログイン状態は localStorage に持つ
+//           （同じブラウザなら合言葉の再入力は不要。新しいブラウザ・別端末では要求される。2026-07-12変更）。
 //   - supabase: メール＋パスワードのサーバ認証。v3 の supabase-client パターンを踏襲し、
 //               Supabaseモジュールは「supabaseモードのときだけ」動的importする（demoではネット不要）。
 //
@@ -44,9 +45,20 @@ export function safeNext(raw) {
 }
 
 /* ============================ demo モード ============================ */
+// ログイン状態は localStorage（ブラウザ単位で永続）。同じブラウザの再訪では合言葉を聞かない。
+// 過去バージョンが sessionStorage に残したフラグも1回だけ引き継ぐ（移行措置）。
 function demoGetSession() {
   let raw = null
-  try { raw = sessionStorage.getItem(DEMO_SESSION_KEY) } catch (_) { raw = null }
+  try { raw = localStorage.getItem(DEMO_SESSION_KEY) } catch (_) { raw = null }
+  if (raw !== 'ok') {
+    try {
+      if (sessionStorage.getItem(DEMO_SESSION_KEY) === 'ok') {
+        localStorage.setItem(DEMO_SESSION_KEY, 'ok')
+        sessionStorage.removeItem(DEMO_SESSION_KEY)
+        raw = 'ok'
+      }
+    } catch (_) {}
+  }
   if (raw === 'ok') {
     return { authed: true, name: AUTH_CONFIG.demo.learnerName || '受講生' }
   }
@@ -55,12 +67,13 @@ function demoGetSession() {
 function demoLogin(_id, password) {
   const expected = String(AUTH_CONFIG.demo.passphrase || '')
   if (expected && expected !== 'CHANGE_ME' && String(password) === expected) {
-    try { sessionStorage.setItem(DEMO_SESSION_KEY, 'ok') } catch (_) {}
+    try { localStorage.setItem(DEMO_SESSION_KEY, 'ok') } catch (_) {}
     return { ok: true }
   }
   return { ok: false, error: '合言葉が違います。' }
 }
 function demoLogout() {
+  try { localStorage.removeItem(DEMO_SESSION_KEY) } catch (_) {}
   try { sessionStorage.removeItem(DEMO_SESSION_KEY) } catch (_) {}
 }
 
