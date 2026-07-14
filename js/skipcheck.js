@@ -23,7 +23,7 @@ export const DIAG_PROMPT = [
   '- 確認に必要なコマンドは、あなたが実行してください（私は許可を押すだけです）',
   '',
   '調べる9項目:',
-  '1. 基地フォルダ — 私の仕事用フォルダ（CLAUDE.md や KNOWLEDGE.md、output/ などが入っている場所）があるか',
+  '1. 基地フォルダ — 私がClaude Codeでいつも使っている仕事用フォルダ（CLAUDE.md や KNOWLEDGE.md、output/ などが入っている場所）があるか。名前は何でもよい',
   '2. CLAUDE.md — 基地に CLAUDE.md があり、中身が書かれているか（空ファイルでないか）',
   '3. KNOWLEDGE.md — 基地に KNOWLEDGE.md があり、中身が書かれているか',
   '4. Google接続 — gog などで Googleカレンダー / Gmail を読める状態か（実際に接続を確認して）',
@@ -43,8 +43,11 @@ export const DIAG_PROMPT = [
 
 // 1項目 = 1章。checks は verify.js の型をそのまま使う。
 // regex は「行頭（番号があってもよい）＋項目名＋コロン＋あり」に限定＝プロンプトの説明文には一致しない。
+// 行頭の装飾（番号・箇条書きのハイフン/中黒・太字の**）を許容する。
+// AIは「**CLAUDE.md**: あり」「- CLAUDE.md: あり」「1. CLAUDE.md: あり」など様々な形で返すため。
+// ただし「項目名 + コロン + あり」の並びは必須＝診断プロンプト本文（項目名の後にコロンを置いていない）には一致しない。
 function hit(name) {
-  return '^\\s*(?:\\d+[.)]\\s*)?' + name + '\\s*[:：]\\s*あり'
+  return '^\\s*(?:[-*・]\\s*)?(?:\\d+[.)]\\s*)?\\**\\s*' + name + '\\s*\\**\\s*[:：]\\s*\\**\\s*あり'
 }
 
 export const SKIP_ITEMS = [

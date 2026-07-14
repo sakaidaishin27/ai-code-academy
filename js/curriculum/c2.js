@@ -676,7 +676,7 @@ export const COURSE2 = {
             '<p>手順はすべてAIに任せます。初回だけ、AIがGitHubに接続するための<strong>認証</strong>（gh というGitHub操作用の道具の設定）が必要になるかもしれませんが、それもAIが案内してくれます。第4章のGoogle接続と同じで、<strong>あなたの役目はブラウザでの承認だけ</strong>です。</p>',
             '<ol class="steps-fig">',
             '<li><strong>下のプロンプトを、基地で開いたClaude Codeに貼る</strong></li>',
-            '<li><strong>認証を求められたら、AIの案内に従ってブラウザで承認</strong> — 画面に表示されるコードを入力する形式が一般的です</li>',
+            '<li><strong>認証: AIが出す8桁のコードを、ブラウザで入れる</strong> — 初回だけGitHubとの接続が要ります。AIが「4062-5945」のような<strong>ワンタイムコード</strong>を画面に出すので、それを控えて <strong>github.com/login/device</strong> を開き、貼り付けて承認します。承認した瞬間、AI側の接続が自動で完了します（あなたがやるのはブラウザでの入力だけです）</li>',
             '<li><strong>完了したら、ブラウザで github.com を開いて自分の目で確認</strong> — 自分のリポジトリに「Private」の表示があること、基地のファイルが見えることをチェック</li>',
             '</ol>',
             '<div class="callout"><strong>詰まったら:</strong> ①「gh: command not found」→ AIに「ghを入れて」と頼めばインストールから案内してくれます ②秘密情報のチェックで「見つかった」と言われた → pushを止めて、そのファイルをどうするか（除外するか・場所を移すか）AIと相談してから進む ③GitHubで自分のリポジトリが見つからない → 右上の自分のアイコン → Your repositories の順にたどってページを再読み込み。</div>',
@@ -685,7 +685,11 @@ export const COURSE2 = {
             '私の基地（このフォルダ）を、GitHubにバックアップしたいです。Privateリポジトリを作って、最初のコミットとpushまで、1ステップずつ「いま何をしているか」を説明しながらやってください。',
             '',
             '- リポジトリは必ずPrivate（非公開）にしてください。顧客名や業務メモが入っているためです',
-            '- GitHubへの接続（ghコマンドの認証）がまだなら、そのセットアップから案内してください',
+            '- GitHubへの接続がまだなら、そこから案内してください。手順は次のとおりです:',
+            '  (a) gh auth status で接続済みか確認する',
+            '  (b) 未接続なら、gh auth login --web --git-protocol https --hostname github.com --skip-ssh-key を【バックグラウンドで】実行する（この命令は私がブラウザで承認するまで終わらないので、前面で実行すると固まります）',
+            '  (c) 出力に出てくる「one-time code」（8桁）を私に見せて、「github.com/login/device を開いて、このコードを入れて承認してください」と伝えて待つ',
+            '  (d) 私が「承認しました」と言ったら、gh auth status で接続できたか確認する',
             '- pushする前に、パスワードやAPIキーのような秘密情報がフォルダ内に入っていないか、ざっと確認してください',
             '- 終わったら、リポジトリのURLと、Privateになっていることの確認方法を教えてください',
           ].join('\n'),
@@ -1059,11 +1063,11 @@ export const COURSE2 = {
           verify: {
             instruction: '売上日報に1行足したときに起きたこと（金額が自動で入った・在庫が減った・発注点割れが赤くなった、のいずれか）を貼り付けてください。シートの中身のコピペでも、AIの説明でもOKです。',
             checks: [
-              { type: 'keywordsAny', values: ['金額', '自動', '計算'], min: 1, label: '金額が自動で入ったこと' },
+              { type: 'keywordsAny', values: ['金額', '単価', '自動', '計算'], min: 1, label: '金額が自動で入ったこと' },
               { type: 'keywordsAny', values: ['在庫', '減', '発注点', '赤'], min: 1, label: '在庫の減少または発注点の反応' },
-              { type: 'minChars', min: 20, label: '証拠に中身がある' },
+              { type: 'minChars', min: 40, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -1359,12 +1363,13 @@ export const COURSE2 = {
             '<p>コース2、最後の関門です。あなたがロボットに作らせた<strong>成果物</strong>の証拠を貼ってください。生成された請求書PDFのファイル名でも、カレンダーに登録された予定の一覧でも、どちらでもかまいません。ここを通ると<strong>L2修了証</strong>が発行されます。</p>',
           ].join('\n'),
           verify: {
-            instruction: '請求書PDFのファイル名（例: 請求書_〇〇商店_2026-07.pdf のような並び）か、カレンダーに登録された予定の一覧を貼り付けてください。',
+            instruction: '請求書PDFのファイル名の一覧（例: 請求書_〇〇商店_2026-07.pdf …）か、カレンダーに登録された予定の一覧を貼り付けてください。何件できたかも一言添えてください。',
             checks: [
-              { type: 'keywordsAny', values: ['請求書', 'PDF', 'pdf', '予定', 'カレンダー', 'イベント'], min: 1, label: '成果物（請求書PDFまたは予定）の証拠がある' },
-              { type: 'minChars', min: 15, label: '証拠に中身がある' },
+              { type: 'keywordsAny', values: ['請求書', 'PDF', 'pdf', '予定', 'カレンダー', 'イベント'], min: 1, label: '成果物（請求書PDFまたは予定）の名前がある' },
+              { type: 'keywordsAny', values: ['生成', '作成', '保存', '登録', 'できた', '入っ', '件'], min: 1, label: '実際に作られた・登録されたことが分かる' },
+              { type: 'minChars', min: 50, label: '証拠に中身がある（ファイル名や一覧を貼る）' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {

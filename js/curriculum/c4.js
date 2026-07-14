@@ -242,8 +242,9 @@ export const COURSE4 = {
               { type: 'keywordsAny', values: ['サイト', 'ツール', 'ページ', '診断', 'チェックリスト', '計算', '作品'], min: 1, label: '何を作ったかが書かれている' },
               { type: 'keywordsAny', values: ['完了条件', '完成', '条件', 'ゴール'], min: 1, label: '完了条件に触れている' },
               { type: 'keywordsAny', values: ['動', '開', '表示', 'クリック', '押', '入力'], min: 1, label: '実際に動かした様子がある' },
+              { type: 'minChars', min: 60, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -372,13 +373,14 @@ export const COURSE4 = {
             '<p>最後の関門です。<strong>あなたの卒業制作の公開URL</strong>と、<strong>他人の目（スマホ・別の人・シークレットウィンドウ）で開けた</strong>ことが分かる内容を貼ってください。ここを通ると、<strong>L4修了証——免許皆伝</strong>です。</p>',
           ].join('\n'),
           verify: {
-            instruction: '公開URL（github.io を含むもの）と、スマホや他の人の環境で開いて動いたことが分かる一言（例: スマホで開いて計算できた／同僚が開けたと返事をくれた）を貼り付けてください。',
+            instruction: '(1)公開URL（github.io を含むもの）と、(2)スマホ・別の端末・誰かに開いてもらった結果、の両方を貼り付けてください（例: スマホで開いて計算できた／同僚に送ったら「開けた」と返事がきた）。URLだけでは通りません。',
             checks: [
               { type: 'contains', value: 'github.io', label: '公開URL（github.io）がある' },
-              { type: 'keywordsAny', values: ['http', 'URL', 'github.io'], min: 1, label: 'URLの形で貼られている' },
-              { type: 'keywordsAny', values: ['スマホ', '別', '他', 'シークレット', '開け', '見られ', '共有', '動', '表示', '使え'], min: 1, label: '他人の目で動いたことの確認がある' },
+              { type: 'keywordsAny', values: ['スマホ', '別', '他', 'シークレット', '共有', '送', '見てもら', '開いてもら'], min: 1, label: '他人の目（スマホ・別端末・誰か）で開いている' },
+              { type: 'keywordsAny', values: ['動', '表示', '使え', '開け', '計算', '押'], min: 1, label: '実際に動いたことが分かる' },
+              { type: 'minChars', min: 50, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {

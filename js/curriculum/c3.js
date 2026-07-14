@@ -168,9 +168,10 @@ export const COURSE3 = {
           minutes: 5,
           body: ['<p>第13章の関門です。あなたの「守り」が設定された証拠を貼ってください。</p>'].join('\n'),
           verify: {
-            instruction: 'AIが適用後に見せてくれた権限設定（permissions の該当部分）と、その日本語の説明を貼り付けてください。',
+            instruction: '(1)AIが見せてくれた権限設定（permissions の該当部分）と、(2)避難訓練で実際に何が起きたか（削除を指示したら実行の直前で止まり「許可しない」を選んだ／拒否された 等）の、両方を貼り付けてください。',
             checks: [
-              { type: 'keywordsAny', values: ['permissions', 'settings', '権限', 'deny', 'ask', '確認', '禁止'], min: 1, label: '権限設定に触れている' },
+              { type: 'keywordsAny', values: ['permissions', 'settings', '権限', 'deny', 'ask', '禁止'], min: 1, label: '権限設定に触れている' },
+              { type: 'keywordsAny', values: ['止ま', '拒否', 'ブロック', '許可しない', '許可しませんでした', '直前', '訓練', '無事'], min: 1, label: '避難訓練で、実際に守りが働いた（止まった）ことが分かる' },
               { type: 'minChars', min: 80, label: '設定の中身と説明が貼られている' },
             ],
             passRule: 'all',
@@ -351,9 +352,10 @@ export const COURSE3 = {
             checks: [
               { type: 'keywordsAny', values: ['API', 'api', '窓口', '注文', 'リクエスト', 'URL', 'http'], min: 1, label: '注文（リクエスト）の説明がある' },
               { type: 'keywordsAny', values: ['JSON', 'json', 'データ', 'レスポンス', '返って'], min: 1, label: '納品（データ）の説明がある' },
-              { type: 'keywordsAny', values: ['天気', '気温', '晴', '雨', '曇', '業務', '使え'], min: 1, label: '実際に取れた中身や使い道に触れている' },
+              { type: 'keywordsAny', values: ['天気', '気温', '晴', '雨', '曇', '度'], min: 1, label: '実際に取れた中身（天気の実データ）に触れている' },
+              { type: 'minChars', min: 60, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -464,12 +466,13 @@ export const COURSE3 = {
           body: [
             '<p>いよいよ繋ぎます。あなたが普段の仕事で使っているサービスを1つ選んでください。Notion・Slack・Googleドライブ——何でも構いません。それをMCPでAIに繋ぎ、<strong>最初の読み取り</strong>まで動かします。</p>',
             '<ol class="steps-fig">',
-            '<li><strong>サービスを1つ決める</strong> — 迷ったら「議事録やメモが溜まっている場所」がおすすめです（次の章で効いてきます）</li>',
+            '<li><strong>サービスを1つ決める</strong> — <strong>迷ったら Notion を選んでください。</strong>いちばん簡単に繋がります（ボタンで承認するだけ）。Slackなど一部のサービスは、開発者向けの画面でアプリを作る作業が必要で、難易度が跳ね上がります。まずは通しで体験することが目的なので、易しいものから行きましょう（次の章でも効いてきます）</li>',
             '<li><strong>下のプロンプトを貼る</strong> — ◯◯を選んだサービス名に書き換えてください。AIが接続方法を調べて、1ステップずつ案内してくれます</li>',
             '<li><strong>認証はあなたの手で</strong> — ログインや許可の画面が出たら、内容を確認して自分で押します</li>',
             '<li><strong>読み取りを1つ実行</strong> — ページの一覧が出るなど、AIの手がサービスに届いたことを確認できたら完了です</li>',
             '</ol>',
             '<div class="callout">会社のワークスペースを繋ぐときは、あなたに権限のあるアカウントで認証してください。他人のアカウントや共有アカウントでの認証は避けること。「どこまでAIに見せてよいか」を決められる人が、自分の名義で繋ぐのが原則です。</div>',
+            '<div class="callout"><strong>どこを押すか、が分からなくなったら。</strong>MCPの繋ぎ方はサービスごとに違い、画面も変わります。だからこの実習では<strong>手順を暗記しません</strong>——AIに「このサービスを繋ぎたい。いまの正しいやり方を調べて、私が押す場所を1つずつ教えて」と頼むのが正解です。英語の画面で固まったら、その画面をスクリーンショットしてClaudeのチャットに貼り「どこを押せばいい？」と聞けば教えてくれます。</div>',
             '<div class="callout"><strong>詰まったら:</strong> ①接続したはずなのにAIがサービスを読めない → 「いま繋がっているサービス（MCP）の状態を確認して」とAIに頼めば調べてくれます。ダメなら新しいセッション（command + N）でもう一度。それでも繋がらなければ、アプリをいったん終了して開き直すのが最後の手段です ②認証画面で不安になった → 中断して大丈夫。接続は後からいつでもやり直せます ③英語のエラーが出た → そのまま貼って「初心者向けに説明して。次に何をすればいい？」で前に進めます。</div>',
           ].join('\n'),
           prompt: [
@@ -529,11 +532,11 @@ export const COURSE3 = {
           verify: {
             instruction: 'MCPで繋いだあとの動作確認（読み取り操作の結果）と、AIの説明を貼り付けてください。どのサービスを繋いだかが分かればOKです。',
             checks: [
-              { type: 'keywordsAny', values: ['MCP', 'mcp', '接続', '繋', 'つない', '連携'], min: 1, label: 'MCPで繋いだことが分かる' },
-              { type: 'keywordsAny', values: ['Notion', 'notion', 'Slack', 'slack', 'Drive', 'drive', 'ドライブ', 'Google', 'カレンダー', 'データベース', 'ノーション', 'スラック', 'サーバー'], min: 1, label: 'どのサービスかが分かる' },
+              { type: 'keywordsAny', values: ['MCP', 'mcp'], min: 1, label: 'MCPで繋いだことが分かる' },
+              { type: 'keywordsAny', values: ['Notion', 'notion', 'Slack', 'slack', 'Drive', 'drive', 'ドライブ', 'データベース', 'ノーション', 'スラック', 'サーバー', 'ページ', 'チャンネル'], min: 1, label: 'どのサービスを繋ぎ、何が読めたかが分かる' },
               { type: 'minChars', min: 80, label: '動作確認の結果が貼られている' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -697,8 +700,9 @@ export const COURSE3 = {
               { type: 'keywordsAny', values: ['第二の脳', 'wiki', 'sources', '記事'], min: 1, label: '第二の脳（sources/wiki）に触れている' },
               { type: 'headings', min: 1, label: '見出しつきで整理されている' },
               { type: 'minLines', min: 3, label: '整理された内容が貼られている' },
+              { type: 'minChars', min: 80, label: '記事に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {

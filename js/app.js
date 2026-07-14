@@ -605,7 +605,7 @@ function renderSkip() {
       '「もう出来ている」の自己申告では飛ばしません。あなたのAIに実際の環境を調べさせ、その診断結果を証拠として提出してもらいます。</p>' +
 
       '<div class="part"><div class="part-label"><span class="part-no">1</span> 自分の環境を、AIに診断させる</div>' +
-        '<p class="part-intro">基地のフォルダを開いた状態で、下のプロンプトをコピーして自分のClaude Codeに貼ってください。AIがあなたのPCと接続状況を実際に調べて、9項目の診断結果を返します。</p>' +
+        '<p class="part-intro">Claude Codeで<strong>いつも仕事に使っているフォルダ</strong>（CLAUDE.md などが入っている場所。このアカデミーではこれを「基地」と呼びます）を開いた状態で、下のプロンプトをコピーして貼ってください。AIがあなたのPCと接続状況を実際に調べて、9項目の診断結果を返します。</p>' +
         promptBoxHtml(DIAG_PROMPT) +
       '</div>' +
 
