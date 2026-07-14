@@ -8,6 +8,7 @@ import { COURSES, findCourse, findChapter, findLesson, chapterSequence } from '.
 import { verifyEvidence } from './verify.js'
 import * as Quiz from './quiz.js'
 import { requireLogin, logout } from './auth.js'
+import { DIAG_PROMPT, SKIP_ITEMS, NOT_SKIPPABLE_NOTE } from './skipcheck.js'
 
 const STORAGE_KEY = 'aca_progress_v2'
 const app = document.getElementById('app')
@@ -205,6 +206,8 @@ function renderDashboard() {
         '<p class="hero-sub">' + esc(BRAND.subTagline) + '</p>' +
         '<div class="hero-cta">' + nextCta +
           (isInstructor() ? ' <span class="inst-flag">講師モード（全章開放中）</span>' : '') + '</div>' +
+        '<p class="hero-skip">すでにClaude Codeを使っている方へ — ' +
+          '<a href="' + href('/skip') + '">環境診断で、出来ている章を飛び級する</a></p>' +
       '</div>' +
       ladderHtml() +
       '<p class="section-label">コース一覧</p>' +
@@ -585,6 +588,94 @@ function renderNotFound() {
     '<div class="btn-row"><a class="btn" href="' + href('/dashboard') + '">アカデミーに戻る</a></div></section>'
 }
 
+/* ----------------------------- 環境診断（飛び級） ----------------------------- */
+function renderSkip() {
+  const rows = SKIP_ITEMS.map((it) => {
+    const found = findChapter(it.chapterId)
+    if (!found) return ''
+    const done = chapterCleared(found.chapter)
+    return '<li class="' + (done ? 'ok' : '') + '"><span class="ck-mark">第' + found.chapter.no + '章</span>' +
+      esc(it.what) + (done ? '　（クリア済み）' : '') + '</li>'
+  }).join('')
+
+  app.innerHTML =
+    '<section class="view">' + crumb([['/skip', '環境診断']]) +
+      '<div class="course-head"><h1 class="page-title">環境診断 — すでに出来ている章を、飛び級する</h1></div>' +
+      '<p class="page-sub">すでにClaude Codeを使っていて、基地やCLAUDE.mdが出来ている方向けの入口です。' +
+      '「もう出来ている」の自己申告では飛ばしません。あなたのAIに実際の環境を調べさせ、その診断結果を証拠として提出してもらいます。</p>' +
+
+      '<div class="part"><div class="part-label"><span class="part-no">1</span> 自分の環境を、AIに診断させる</div>' +
+        '<p class="part-intro">基地のフォルダを開いた状態で、下のプロンプトをコピーして自分のClaude Codeに貼ってください。AIがあなたのPCと接続状況を実際に調べて、9項目の診断結果を返します。</p>' +
+        promptBoxHtml(DIAG_PROMPT) +
+      '</div>' +
+
+      '<div class="part"><div class="part-label"><span class="part-no">2</span> 診断結果を貼って、判定する</div>' +
+        '<p class="part-intro">AIが返した診断結果を、そのまま貼り付けてください。「あり」と判定された項目に対応する章が、クリア済みになります。</p>' +
+        '<textarea class="evidence" id="diagText" placeholder="【AI Academy 環境診断】から始まる、AIの診断結果を貼り付けます"></textarea>' +
+        '<div class="verify-bar"><button class="btn btn-green" id="diagBtn">診断結果を判定する</button></div>' +
+        '<div id="diagResult" class="verify-result"></div>' +
+      '</div>' +
+
+      '<div class="part"><div class="part-label">飛び級できる章</div>' +
+        '<ul class="ck-list">' + rows + '</ul>' +
+        '<div class="callout">' + esc(NOT_SKIPPABLE_NOTE) + '</div>' +
+      '</div>' +
+
+      '<div class="btn-row"><a class="btn btn-ghost" href="' + href('/dashboard') + '">アカデミーに戻る</a></div>' +
+    '</section>'
+
+  bindCopy(DIAG_PROMPT)
+
+  const btn = document.getElementById('diagBtn')
+  const ta = document.getElementById('diagText')
+  const out = document.getElementById('diagResult')
+  btn.addEventListener('click', () => {
+    const text = ta.value
+    if (!String(text).trim()) {
+      out.innerHTML = '<div class="vr-fail">診断結果が貼られていません。</div>'
+      return
+    }
+    const evidence = String(text).slice(0, 4000)
+    const results = []
+    let newly = 0
+    for (const it of SKIP_ITEMS) {
+      const found = findChapter(it.chapterId)
+      if (!found || !found.chapter.ready) continue
+      const already = chapterCleared(found.chapter)
+      const res = verifyEvidence(it.verify, text)
+      if (res.passed && !already) {
+        setChState(it.chapterId, { submitPassed: true, quizPassed: true, skipped: true, evidence })
+        newly++
+      }
+      results.push({ no: found.chapter.no, title: found.chapter.title, what: it.what, ok: res.passed, already })
+    }
+
+    const list = results.map((r) =>
+      '<li class="' + (r.ok ? 'ok' : 'ng') + '"><span class="ck-mark">' + (r.ok ? 'クリア' : '未達') + '</span>' +
+      '第' + r.no + '章 — ' + esc(r.what) + (r.ok && r.already ? '（すでにクリア済み）' : '') + '</li>').join('')
+
+    const passedCount = results.filter((r) => r.ok).length
+    const next = nextUp()
+    const nextLink = next
+      ? '<div class="btn-row"><a class="btn btn-gold" href="' + href('/lesson/' + next.lesson.id) + '">' +
+        'ここから始めましょう: 第' + next.chapter.no + '章 ' + esc(next.chapter.title.split(' — ')[0]) + '</a>' +
+        '<a class="btn btn-ghost" href="' + href('/dashboard') + '">アカデミーに戻る</a></div>'
+      : '<div class="btn-row"><a class="btn btn-ghost" href="' + href('/dashboard') + '">アカデミーに戻る</a></div>'
+
+    if (passedCount === 0) {
+      out.innerHTML = '<ul class="ck-list">' + list + '</ul>' +
+        '<div class="vr-fail">「あり」と判定できた項目がありませんでした。診断結果をそのまま貼り直すか、第0章から順に進めてください。</div>'
+      return
+    }
+
+    out.innerHTML = '<ul class="ck-list">' + list + '</ul>' +
+      '<div class="vr-pass">' + passedCount + '章をクリア済みにしました' +
+      (newly !== passedCount ? '（うち今回の判定で新たに ' + newly + '章）' : '') + '。' +
+      '飛ばした章も、いつでも読み返せます。</div>' + nextLink
+    out.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  })
+}
+
 /* ----------------------------- コピー ----------------------------- */
 function bindCopy(text) {
   const btn = document.getElementById('copyPrompt')
@@ -620,6 +711,7 @@ function router() {
     case 'chapter': renderChapter(arg); break
     case 'lesson': renderLesson(arg); break
     case 'cert': renderCert(arg); break
+    case 'skip': renderSkip(); break
     default: renderNotFound()
   }
   window.scrollTo(0, 0)
