@@ -151,8 +151,9 @@ export const COURSE2 = {
               { type: 'keywordsAny', values: ['店舗', '本店', '駅前', '集計', '合計'], min: 1, label: '店舗別の集計がある' },
               { type: 'keywordsAny', values: ['利益', '人件費', '原価'], min: 1, label: '本当の利益の計算に触れている' },
               { type: 'keywordsAny', values: ['気づき', '傾向', '示唆', 'ポイント', '注目'], min: 1, label: '気づきが書かれている' },
+              { type: 'minChars', min: 60, label: '集計結果に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -338,8 +339,9 @@ export const COURSE2 = {
               { type: 'contains', value: '.html', label: 'HTMLファイルが作られている' },
               { type: 'keywordsAny', values: ['output', '保存'], min: 1, label: 'output/ に保存されている' },
               { type: 'keywordsAny', values: ['open', '開', 'ブラウザ'], min: 1, label: 'ブラウザで開いている' },
+              { type: 'minChars', min: 40, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -707,11 +709,11 @@ export const COURSE2 = {
             instruction: 'push完了時のAIの報告（リポジトリ名・URL・コミットとpushをしたことが分かる部分）を貼り付けてください。',
             checks: [
               { type: 'keywordsAny', values: ['リポジトリ', 'repository', 'repo'], min: 1, label: 'リポジトリが作られている' },
-              { type: 'keywordsAny', values: ['コミット', 'commit'], min: 1, label: 'コミットしている' },
-              { type: 'keywordsAny', values: ['push', 'プッシュ'], min: 1, label: 'pushしている' },
+              { type: 'keywordsAny', values: ['コミット', 'commit', 'push', 'プッシュ'], min: 1, label: 'コミットしてGitHubへ送っている' },
               { type: 'keywordsAny', values: ['private', 'プライベート', '非公開'], min: 1, label: 'Privateになっている' },
+              { type: 'minChars', min: 60, label: '証拠に中身がある' },
             ],
-            passRule: { min: 3 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -860,10 +862,10 @@ export const COURSE2 = {
             instruction: '公開されたURL（github.io を含むもの）と、実際にブラウザで表示できたことが分かる一言（例: スマホでも開けた）を貼ってください。',
             checks: [
               { type: 'contains', value: 'github.io', label: '公開URL（github.io）がある' },
-              { type: 'keywordsAny', values: ['http', 'URL'], min: 1, label: 'URLの形で貼られている' },
-              { type: 'keywordsAny', values: ['公開', '表示', '開け', '見られ', '確認'], min: 1, label: '表示の確認ができている' },
+              { type: 'keywordsAny', values: ['公開', '表示', '開け', '見られ', '確認', 'スマホ'], min: 1, label: 'ブラウザで表示できたことが確認できている' },
+              { type: 'minChars', min: 40, label: '証拠に中身がある' },
             ],
-            passRule: { min: 2 },
+            passRule: 'all',
           },
           quiz: [
             {
@@ -1212,7 +1214,7 @@ export const COURSE2 = {
             instruction: '自動で届いたメールの本文を貼り付けてください（日報＝売上合計やベスト3が入ったもの、または在庫アラート＝発注候補が入ったもの、どちらでもOK）。',
             checks: [
               { type: 'keywordsAny', values: ['売上', '合計', 'ベスト', '前週', '在庫', '発注'], min: 1, label: '日報または在庫アラートの中身がある' },
-              { type: 'minChars', min: 25, label: 'メール本文に中身がある' },
+              { type: 'minChars', min: 40, label: 'メール本文に中身がある' },
             ],
             passRule: { min: 2 },
           },

@@ -619,6 +619,7 @@ export const COURSE1 = {
             checks: [
               { type: 'keywordsAny', values: ['現在の状態', '状態', '現状'], min: 1, label: '「現在の状態」セクションがある' },
               { type: 'minLines', min: 3, label: '複数の項目が書かれている' },
+              { type: 'minChars', min: 60, label: '記録に中身がある' },
             ],
             passRule: 'all',
           },
