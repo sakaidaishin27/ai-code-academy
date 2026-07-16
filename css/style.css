@@ -13,7 +13,7 @@
   --ink:        #1A1D1F;
   --ink-2:      #34393D;
   --sub:        #6E757B;
-  --faint:      #9AA1A7;
+  --faint:      #70777D; /* 旧#9AA1A7はコントラスト2.6:1で章メタ等が読めなかった（2026-07-16改善） */
   --line:       #E7E8E6;
   --line-2:     #F0F1EF;
 
@@ -151,7 +151,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .ladder-step { position: relative; z-index: 1; text-align: center; padding: 0 6px; }
 .ladder-badge { display: inline-flex; align-items: center; justify-content: center;
   min-width: 44px; height: 26px; border-radius: 999px; padding: 0 12px;
-  font-size: 11.5px; font-weight: 800; letter-spacing: .04em;
+  font-size: 12px; font-weight: 800; letter-spacing: .04em;
   background: var(--surface); color: var(--faint); border: 2px solid var(--line);
   margin-bottom: 10px; }
 .ladder-step.reached .ladder-badge {
@@ -159,7 +159,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   color: #fff; border-color: transparent; box-shadow: var(--shadow-xs); }
 .ladder-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.4; }
 .ladder-step.reached .ladder-name { color: var(--brand); }
-.ladder-note { font-size: 11px; color: var(--faint); margin-top: 3px; }
+.ladder-note { font-size: 12px; color: var(--faint); margin-top: 3px; }
 .ladder-goal { text-align: center; font-size: 12px; color: var(--sub); margin: 16px 0 0;
   padding-top: 14px; border-top: 1px solid var(--line-2); }
 .ladder-goal strong { color: var(--gold); font-weight: 800; }
@@ -184,18 +184,18 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .cc-bar { flex: 1; height: 7px; background: var(--line-2); border-radius: 999px; overflow: hidden; }
 .cc-fill { height: 100%; background: linear-gradient(90deg, var(--brand-2), var(--brand)); border-radius: 999px; transition: width .4s ease; }
 .is-done .cc-fill { background: linear-gradient(90deg, #2E9058, var(--green)); }
-.cc-meta { font-size: 11px; color: var(--sub); white-space: nowrap; font-weight: 600; }
+.cc-meta { font-size: 12px; color: var(--sub); white-space: nowrap; font-weight: 600; }
 .cc-actions { display: flex; gap: 8px; margin-top: 8px; }
 
 /* ============================ タグ・バッジ ============================ */
-.tag { font-size: 10.5px; font-weight: 800; border-radius: 6px; padding: 2px 9px; letter-spacing: .04em; }
+.tag { font-size: 11.5px; font-weight: 800; border-radius: 6px; padding: 2px 9px; letter-spacing: .04em; }
 .tag-level { background: var(--brand-soft); color: var(--brand); }
-.st-badge { font-size: 11px; font-weight: 800; border-radius: 999px; padding: 3px 11px; letter-spacing: .02em; }
+.st-badge { font-size: 12px; font-weight: 800; border-radius: 999px; padding: 3px 11px; letter-spacing: .02em; }
 .st-passed { background: var(--green); color: #fff; }
 .st-open { background: var(--brand-soft); color: var(--brand); }
 .st-locked { background: var(--line-2); color: var(--faint); }
-.st-soon { background: var(--gold-soft); color: var(--gold); }
-.lock-note { font-size: 11px; color: var(--faint); }
+.st-soon { background: var(--gold-soft); color: #7A5A13; }
+.lock-note { font-size: 12px; color: var(--faint); }
 .cert-hint { font-size: 12.5px; color: rgba(233,240,242,.75); }
 
 /* ============================ 章リスト ============================ */
@@ -210,12 +210,12 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   border-radius: 3px; background: var(--green); }
 .chapter-row.locked { opacity: .62; }
 .chapter-row.soon { background: var(--surface-2); border-style: dashed; }
-.chr-no { font-size: 11px; font-weight: 800; color: var(--faint); white-space: nowrap; min-width: 54px;
+.chr-no { font-size: 12px; font-weight: 800; color: var(--faint); white-space: nowrap; min-width: 54px;
   letter-spacing: .06em; }
 .chr-main { flex: 1; min-width: 0; }
 .chr-title { font-size: 15px; font-weight: 700; color: var(--ink); letter-spacing: -0.005em; }
 .chr-goal { font-size: 12px; color: var(--sub); margin-top: 3px; }
-.chr-meta { font-size: 11px; color: var(--faint); margin-top: 5px; font-weight: 600; }
+.chr-meta { font-size: 12px; color: var(--faint); margin-top: 5px; font-weight: 600; }
 .chr-side { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; white-space: nowrap; }
 
 /* ============================ レッスン一覧 ============================ */
@@ -225,15 +225,15 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   transition: border-color .14s ease, background .14s ease, transform .14s ease; }
 .lesson-row:hover { text-decoration: none; border-color: #c6d6da; background: #FDFEFE; transform: translateX(2px); }
 .lesson-row.done { background: var(--surface-2); }
-.lr-idx { font-size: 11px; font-weight: 800; color: var(--faint); min-width: 20px; text-align: center; }
-.lr-type { font-size: 10px; font-weight: 800; border-radius: 6px; padding: 3px 9px; white-space: nowrap; letter-spacing: .06em; }
+.lr-idx { font-size: 12px; font-weight: 800; color: var(--faint); min-width: 20px; text-align: center; }
+.lr-type { font-size: 11px; font-weight: 800; border-radius: 6px; padding: 3px 9px; white-space: nowrap; letter-spacing: .06em; }
 .lr-type.t-lecture { background: var(--line-2); color: var(--ink-2); }
 .lr-type.t-practice { background: var(--green-soft); color: var(--green); }
-.lr-type.t-submit { background: var(--gold-soft); color: var(--gold); }
+.lr-type.t-submit { background: #8A6516; color: #fff; } /* 最重要ラベル「関門」は濃地×白字で目立たせる */
 .lr-title { flex: 1; font-size: 13.5px; font-weight: 600; min-width: 0; }
-.lr-right { font-size: 11px; color: var(--faint); display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+.lr-right { font-size: 12px; color: var(--faint); display: flex; align-items: center; gap: 9px; white-space: nowrap; }
 .lr-done { display: inline-flex; align-items: center; justify-content: center; background: var(--green);
-  color: #fff; font-size: 10px; font-weight: 800; border-radius: 999px; padding: 2px 9px; }
+  color: #fff; font-size: 11px; font-weight: 800; border-radius: 999px; padding: 2px 9px; }
 
 /* ============================ レッスン本文 ============================ */
 .lesson-body { font-size: 15px; line-height: 2.05; color: var(--ink-2); }
@@ -242,10 +242,12 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .done-bar { margin: 24px 0 8px; }
 
 /* ---- 図解: figure ---- */
+/* スマホ幅ではSVGを縮小せず原寸横スクロールにする（縮小すると図中文字が判読不能になる） */
 .figure { margin: 22px 0; background: var(--surface); border: 1px solid var(--line);
-  border-radius: var(--r-md); padding: 20px 20px 12px; box-shadow: var(--shadow-xs); }
-.figure svg { width: 100%; height: auto; display: block; }
-.figure figcaption { font-size: 11.5px; color: var(--sub); text-align: center; margin-top: 10px;
+  border-radius: var(--r-md); padding: 20px 20px 12px; box-shadow: var(--shadow-xs);
+  overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.figure svg { width: 100%; height: auto; display: block; min-width: 560px; }
+.figure figcaption { font-size: 12.5px; color: var(--sub); text-align: center; margin-top: 10px;
   padding-top: 10px; border-top: 1px solid var(--line-2); }
 
 /* ---- 図解: ターミナル再現モック ---- */
@@ -256,7 +258,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .tm-bar span:nth-child(1) { background: #E0655A; }
 .tm-bar span:nth-child(2) { background: #E0B13F; }
 .tm-bar span:nth-child(3) { background: #57B464; }
-.tm-bar em { font-style: normal; font-size: 11px; color: #8A939D; margin-left: 8px; font-weight: 500; }
+.tm-bar em { font-style: normal; font-size: 12px; color: #8A939D; margin-left: 8px; font-weight: 500; }
 .tm-body { background: #0E1114; padding: 16px 18px; font-family: var(--mono); font-size: 12.5px; line-height: 1.85; }
 .tm-body p { margin: 0 0 12px; white-space: pre-wrap; word-break: break-word; }
 .tm-body p:last-child { margin-bottom: 0; }
@@ -291,6 +293,9 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .callout { background: var(--gold-soft); border-left: 3px solid var(--gold-2); border-radius: 8px;
   padding: 14px 18px; font-size: 13.5px; line-height: 1.85; margin: 20px 0; color: var(--ink-2); }
 .callout strong { color: var(--ink); }
+/* 「詰まったら」を症状ごとの縦リストで見せる（パニック中でも自分の症状を探せる） */
+.stuck-list { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.stuck-list li { background: rgba(255, 255, 255, .68); border-radius: 8px; padding: 9px 13px; }
 
 /* ---- 動画スロット ---- */
 .video-slot { display: flex; align-items: center; gap: 12px; background: var(--surface-2);
@@ -326,6 +331,13 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   font-size: 12.5px; line-height: 1.8; white-space: pre-wrap; word-break: break-word;
   font-family: var(--mono); overflow-x: auto; }
 
+/* ---- 進捗の保存場所の告知 ---- */
+.storage-note { font-size: 12.5px; color: var(--sub); margin: 22px 4px 0; }
+
+/* ---- 関門ページの実習リンク行 ---- */
+.gate-practices { font-size: 12.5px; color: var(--sub); margin: -4px 0 12px; }
+.gate-practices a { font-weight: 700; }
+
 /* ---- 証拠貼付け ---- */
 .evidence { width: 100%; min-height: 140px; resize: vertical; border: 1px solid var(--line);
   border-radius: var(--r-sm); padding: 14px 15px; font-size: 13px; line-height: 1.7;
@@ -340,7 +352,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
   border-radius: var(--r-sm); font-weight: 500; }
 .ck-list li.ok { background: var(--green-soft); color: #17603A; }
 .ck-list li.ng { background: var(--brick-soft); color: #8F3527; }
-.ck-mark { font-size: 10.5px; font-weight: 800; border-radius: 6px; padding: 2px 8px; flex: 0 0 auto; letter-spacing: .04em; }
+.ck-mark { font-size: 11px; font-weight: 800; border-radius: 6px; padding: 2px 8px; flex: 0 0 auto; letter-spacing: .04em; }
 .ck-list li.ok .ck-mark { background: var(--green); color: #fff; }
 .ck-list li.ng .ck-mark { background: var(--brick); color: #fff; }
 .vr-pass { background: var(--green-soft); border: 1px solid #CBE5D3; color: #17603A;
@@ -366,7 +378,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .choice.locked { cursor: default; }
 .choice.correct { border-color: #8FC6A3; background: var(--green-soft); }
 .choice.wrong { border-color: #DBA595; background: var(--brick-soft); }
-.choice-flag { margin-left: auto; font-size: 10px; font-weight: 800; border-radius: 6px;
+.choice-flag { margin-left: auto; font-size: 11px; font-weight: 800; border-radius: 6px;
   padding: 2px 9px; white-space: nowrap; letter-spacing: .04em; }
 .choice-flag.ok { background: var(--green); color: #fff; }
 .choice-flag.ng { background: var(--brick); color: #fff; }
@@ -438,7 +450,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 /* ============================ フッター ============================ */
 .site-footer { flex-shrink: 0; border-top: 1px solid var(--line); padding: 26px 20px; text-align: center;
   background: var(--surface); }
-.footer-note { font-size: 11.5px; color: var(--faint); max-width: var(--maxw); margin: 0 auto; }
+.footer-note { font-size: 12px; color: var(--faint); max-width: var(--maxw); margin: 0 auto; }
 
 /* ============================ ログイン ============================ */
 .login-body {
@@ -463,7 +475,7 @@ a:hover { text-decoration: underline; text-underline-offset: 3px; }
 .field input:focus { outline: none; border-color: var(--brand-2); background: #fff;
   box-shadow: 0 0 0 4px rgba(47, 111, 126, .12); }
 .login-error { color: var(--brick); font-size: 12.5px; margin: 0; min-height: 16px; }
-.login-note { font-size: 11.5px; color: var(--faint); margin: 18px 0 0; text-align: center; }
+.login-note { font-size: 12px; color: var(--faint); margin: 18px 0 0; text-align: center; }
 
 /* ============================ レスポンシブ ============================ */
 @media (max-width: 760px) {

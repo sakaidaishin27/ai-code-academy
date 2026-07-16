@@ -212,6 +212,7 @@ function renderDashboard() {
       ladderHtml() +
       '<p class="section-label">コース一覧</p>' +
       '<div class="course-grid">' + cards + '</div>' +
+      '<p class="storage-note">学習の進捗は、いま使っているパソコンのブラウザの中に保存されます。いつも同じパソコン・同じブラウザで開いてください（変えると進捗が引き継がれません）。</p>' +
     '</section>'
 }
 
@@ -391,12 +392,20 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
       '</div>'
   }
 
+  // この章の実習レッスンへの戻り導線（関門ページ内に「上の実習」が無く迷子になるのを防ぐ）
+  const practices = chapter.lessons.filter((l) => l.type === 'practice')
+  const practiceLinks = practices.length
+    ? '<p class="gate-practices">この章の実習: ' +
+      practices.map((p) => '<a href="' + href('/lesson/' + p.id) + '">' + esc(p.title.replace(/^実習: /, '')) + '</a>').join('　/　') + '</p>'
+    : ''
+
   app.innerHTML =
     '<section class="view view-lesson">' + head +
       '<div class="lesson-body">' + (lesson.body || '') + '</div>' +
 
       '<div class="part"><div class="part-label"><span class="part-no">1</span> 実機の証拠を貼る</div>' +
         '<p class="part-intro">' + esc((lesson.verify && lesson.verify.instruction) || '') + '</p>' +
+        practiceLinks +
         '<textarea class="evidence" id="evidence" placeholder="ここに、自分のClaude Codeで出た結果を貼り付けます">' + esc(s.evidence || '') + '</textarea>' +
         '<div class="verify-bar"><button class="btn btn-green" id="verifyBtn">証拠を判定する</button>' +
           (s.submitPassed ? '<span class="st-badge st-passed">証拠 合格済み</span>' : '') +
@@ -418,6 +427,16 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
   const vBtn = document.getElementById('verifyBtn')
   const out = document.getElementById('verifyResult')
   const ta = document.getElementById('evidence')
+
+  // 下書き保存: 合否にかかわらず貼った内容を保持する（不合格のままページを離れても消えない）
+  let draftTimer = null
+  ta.addEventListener('input', () => {
+    clearTimeout(draftTimer)
+    draftTimer = setTimeout(() => {
+      setChState(chapter.id, { evidence: String(ta.value).slice(0, 4000) })
+    }, 400)
+  })
+
   vBtn.addEventListener('click', () => {
     const res = verifyEvidence(lesson.verify, ta.value)
     const rows = res.results.map((r) =>
@@ -427,9 +446,12 @@ function renderSubmitLesson(head, course, chapter, lesson, index) {
       out.innerHTML = '<ul class="ck-list">' + rows + '</ul><div class="vr-pass">証拠は合格です。下のミニテストに進んでください。</div>'
       refreshClear()
     } else {
+      const backLinks = practices.length
+        ? '<br>実習へ戻る: ' + practices.map((p) => '<a href="' + href('/lesson/' + p.id) + '">' + esc(p.title.replace(/^実習: /, '')) + '</a>').join('　/　')
+        : ''
       out.innerHTML = '<ul class="ck-list">' + rows + '</ul>' +
         '<div class="vr-fail">まだ足りない項目があります（' + res.passedCount + ' / ' + res.total + '）。' +
-        '実習レッスンに戻って、実機の結果を貼り直してください。</div>'
+        '実習レッスンに戻って、実機の結果を貼り直してください。貼った内容はこのまま残ります。' + backLinks + '</div>'
     }
     out.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   })
@@ -742,4 +764,8 @@ async function boot() {
   window.addEventListener('hashchange', router)
   router()
 }
-boot()
+boot().catch(() => {
+  // 起動失敗時に「読み込み中…」のまま固まらないための最終防御
+  const el = document.getElementById('app')
+  if (el) el.innerHTML = '<div class="boot-note">読み込みに失敗しました。ページを再読み込み（command + R）してみてください。直らない場合は、この画面をスマホで撮って講師に送ってください。</div>'
+})

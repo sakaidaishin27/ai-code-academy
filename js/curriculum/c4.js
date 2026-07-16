@@ -208,7 +208,7 @@ export const COURSE4 = {
             '<li><strong>壊させる</strong> — 新しいセッション（command + N）にして、プロンプト②。辛口レビューで穴を出す</li>',
             '<li><strong>直す</strong> — 最優先の指摘を直させて、もう一度ブラウザで動かして確かめる</li>',
             '</ol>',
-            '<div class="callout"><strong>詰まったら:</strong> ①画面が真っ白→ブラウザを再読み込み。それでもダメならAIに「index.htmlをブラウザで開いたら真っ白。原因を調べて直して」とそのまま伝える ②ボタンが反応しない→どのボタンがどうなるはずかをAIに伝えて直させる ③デザインが気に入らない→「もっと〇〇な雰囲気に」と好みを言葉で。1回で完璧を求めず、会話で育てるのがコツです。</div>',
+            '<div class="callout"><strong>詰まったら:</strong><ul class="stuck-list"><li>①画面が真っ白→ブラウザを再読み込み。それでもダメならAIに「index.htmlをブラウザで開いたら真っ白。原因を調べて直して」とそのまま伝える</li><li>②ボタンが反応しない→どのボタンがどうなるはずかをAIに伝えて直させる</li><li>③デザインが気に入らない→「もっと〇〇な雰囲気に」と好みを言葉で。1回で完璧を求めず、会話で育てるのがコツです。</li></ul></div>',
           ].join('\n'),
           prompt: [
             '【プロンプト①: 作る】',
@@ -329,7 +329,7 @@ export const COURSE4 = {
             '<li><strong>Pagesをオンにする</strong> — Settings → Pages → Deploy from a branch → main /(root) → Save</li>',
             '<li><strong>URLを開いて確かめる</strong> — https://あなたのユーザー名.github.io/リポジトリ名/</li>',
             '</ol>',
-            '<div class="callout"><strong>詰まったら:</strong> ①URLを開いて404（Not Found）→ 反映には<strong>最大10分</strong>かかることがあります。待って再読み込み ②待ってもダメ → リポジトリが<strong>Public</strong>か、ファイル名が<strong>index.html</strong>か、Pagesの設定（branch: main / root）を確認 ③リポジトリが作れない・pushで認証エラー → 第8章でやったGitHubとの接続が切れているだけです。AIに「GitHubの認証をやり直したい」と伝えれば再接続を案内してくれます ④間違えて秘密を入れてしまった → ファイルを消すだけでは履歴に残ります。そのパスワードやキー自体を<strong>無効化・再発行</strong>するのが第一手です（第9章で学んだとおり）。</div>',
+            '<div class="callout"><strong>詰まったら:</strong><ul class="stuck-list"><li>①URLを開いて404（Not Found）→ 反映には<strong>最大10分</strong>かかることがあります。待って再読み込み</li><li>②待ってもダメ → リポジトリが<strong>Public</strong>か、ファイル名が<strong>index.html</strong>か、Pagesの設定（branch: main / root）を確認</li><li>③リポジトリが作れない・pushで認証エラー → 第8章でやったGitHubとの接続が切れているだけです。AIに「GitHubの認証をやり直したい」と伝えれば再接続を案内してくれます</li><li>④間違えて秘密を入れてしまった → ファイルを消すだけでは履歴に残ります。そのパスワードやキー自体を<strong>無効化・再発行</strong>するのが第一手です（第9章で学んだとおり）。</li></ul></div>',
           ].join('\n'),
           prompt: [
             '卒業制作フォルダの index.html を、GitHub Pagesで世界に公開したいです。第9章と同じ流れで、1ステップずつ私の操作が必要なところは止まりながら進めてください。',
@@ -350,7 +350,7 @@ export const COURSE4 = {
           body: [
             '<p>仕上げです。<strong>「他人がURLを開くと、動く」</strong>を実測します。いちばん良いのは、実際に誰かに送って開いてもらうこと。身近に相手がいなければ、自分のスマホ（Wi-Fiでなく4G/5G回線にすると、より「他人の環境」に近づきます）やブラウザのシークレットウィンドウでも確認できます。</p>',
             '<ol class="steps-fig">',
-            '<li><strong>スマホで開く</strong> — 表示が崩れていないか、操作できるかを自分の指で確かめる</li>',
+            '<li><strong>スマホで開く</strong> — 長いURLを手打ちせず、<strong>AIに「このURLをQRコードにして」と頼んで</strong>、スマホのカメラで読み取ると早いです。表示が崩れていないか、操作できるかを自分の指で確かめる</li>',
             '<li><strong>誰かに送る</strong> — 家族・同僚・友人に、URLとひとこと添えて共有する</li>',
             '<li><strong>反応をもらう</strong> — 「開けた？」「使えた？」のひとことで十分</li>',
             '</ol>',
